@@ -14,5 +14,39 @@ pipeline {
                sh 'mvn package'
             }
         } 
+       stage ('Server'){
+            steps {
+               rtServer (
+                 id: "Artifactory",
+                 url: 'https:///artifactory/api/maven/proj1-libs-snapshot',
+                 username: 'vinu',
+                  password: 'Password123',
+                  bypassProxy: true,
+                   timeout: 300
+                        )
+            }
+        }
+        stage('Upload'){
+            steps{
+                rtUpload (
+                 serverId:"Artifactory" ,
+                  spec: '''{
+                   "files": [
+                      {
+                      "pattern": "*.war",
+                      "target": "proj1-libs-snapshot"
+                      }
+                            ]
+                           }''',
+                        )
+            }
+        }
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "Artifactory"
+                )
+            }
+        }
     }
 }
