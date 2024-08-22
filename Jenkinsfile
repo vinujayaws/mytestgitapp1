@@ -18,7 +18,7 @@ pipeline {
             steps {
                rtServer (
                  id: "Artifactory",
-                 url: 'https:///artifactory/api/maven/proj1-libs-snapshot',
+                 url: 'https://ltimindtre.jfrog.io/artifactory',
                  username: 'vinu',
                   password: 'Password123',
                   bypassProxy: true,
