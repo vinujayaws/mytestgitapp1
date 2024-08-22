@@ -14,6 +14,13 @@ pipeline {
                sh 'mvn package'
             }
         } 
+        stage ('Code Quality'){
+            steps {
+                    withSonarQubeEnv('SonarQube Server') {
+                sh 'mvn sonar:sonar'
+                }
+             }
+        }
        stage ('Server'){
             steps {
                rtServer (
